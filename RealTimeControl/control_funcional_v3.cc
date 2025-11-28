@@ -1,12 +1,13 @@
 // =======================================================================================
 // KUKA ECI Robot Control with TCP Interface and Advanced Inverse Kinematics
-//
+// BAUP 2025
 // Based on a stable user-provided version, with only the IK solver upgraded
 // to a more robust implementation.
 //
 // To compile (example):
 // g++ main.cpp -o control-example -std=c++17 -pthread -lorocos-kdl -lkdl_parser -lurdfdom_model -lurdfdom_sensor -lurdfdom_model_state -lurdfdom_world
 //
+// 
 // =======================================================================================
 
 #include <iostream>
@@ -47,7 +48,7 @@
 
 
 // =======================================================================================
-// IK SOLVER CLASS (Optimized version based 100% on user-provided reference code)
+// IK SOLVER CLASS (Optimized version)
 // =======================================================================================
 class IK_Solver {
 public:
@@ -219,7 +220,7 @@ private:
 };
 
 // =======================================================================================
-// GLOBAL & TCP SERVER (from stable user version)
+// GLOBAL & TCP SERVER 
 // =======================================================================================
 std::mutex pose_mutex;
 std::atomic<bool> new_target_received(false);
@@ -261,7 +262,7 @@ void tcp_server_task() {
 }
 
 // =======================================================================================
-// MAIN ROBOT CONTROL (from stable user version)
+// MAIN ROBOT CONTROL 
 // =======================================================================================
 int main(int argc, char const *argv[]) {
   IK_Solver ik_solver;
