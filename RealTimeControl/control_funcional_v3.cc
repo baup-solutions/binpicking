@@ -1,8 +1,8 @@
 // =======================================================================================
 // KUKA ECI Robot Control with TCP Interface and Advanced Inverse Kinematics
 // BAUP 2025
-// Based on a stable user-provided version, with only the IK solver upgraded
-// to a more robust implementation.
+// 
+// 
 //
 // To compile (example):
 // g++ main.cpp -o control-example -std=c++17 -pthread -lorocos-kdl -lkdl_parser -lurdfdom_model -lurdfdom_sensor -lurdfdom_model_state -lurdfdom_world
