@@ -1,0 +1,33 @@
+camera:
+  rgb_zmq: "tcp://10.0.0.14:5555"
+  depth_zmq: "tcp://10.0.0.14:5556"
+  width: 1280
+  height: 960
+
+intrinsics:
+  fx: 1100.0
+  fy: 1100.0
+  cx: 640.0
+  cy: 480.0
+
+extrinsics:
+  # Matriz 4x4 de transformación base->cámara (hay que calibrar hand-eye)
+  T_base_cam:
+    - [1.0, 0.0, 0.0, 0.0]
+    - [0.0, 1.0, 0.0, 0.0]
+    - [0.0, 0.0, 1.0, 0.5]   # cámara 0.5 m por encima del origen del robot
+    - [0.0, 0.0, 0.0, 1.0]
+
+models:
+  box:
+    path: "models/box_yolo.pt"
+    class_name: "box"        # nombre de clase en el modelo 
+    conf: 0.5
+    iou: 0.45
+    min_points: 200          # mínimo de puntos depth para calcular pose
+  bottle:
+    path: "models/bottle_yolo.pt"
+    class_name: "bottle"
+    conf: 0.5
+    iou: 0.45
+    min_points: 200

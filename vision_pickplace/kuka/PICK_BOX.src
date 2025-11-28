@@ -1,0 +1,85 @@
+&ACCESS RVP
+&REL 1
+&PARAM EDITMASK = *
+DEF PICK_BOX( )
+
+   DECL E6POS TargetPos
+   DECL CHAR cmd[32]
+   DECL CHAR recv[255]
+   DECL INT  state, len
+   DECL REAL rx, ry, rz, rA, rB, rC
+   DECL INT  i, pCount, start, stop
+   DECL CHAR token[32]
+
+   ; Abrir canal
+   EKIOpen("VISIONSRV", state)
+   IF state <> 0 THEN
+      HALT
+   ENDIF
+
+   ; Enviar comando "GET_POSE box"
+   cmd[] = "GET_POSE box"
+   EKISetString("VISIONSRV","Command",cmd[])
+   EKISend("VISIONSRV", state)
+
+   ; Recibir respuesta
+   EKIReceive("VISIONSRV", state)
+   IF state <> 0 THEN
+      HALT
+   ENDIF
+
+   EKIGetString("VISIONSRV","Response", recv[])
+
+   ; Esperamos "OK x y z A B C"
+   IF STRLEN(recv[]) < 3 THEN
+      HALT
+   ENDIF
+
+   IF (SUBSTR(recv[],1,2) <> "OK") THEN
+      HALT
+   ENDIF
+
+   ; Parse básico (asumiendo espacios como separador)
+   pCount = 0
+   start = 4 ; después de "OK "
+
+   FOR i = start TO STRLEN(recv[])
+      IF (recv[i] = ' ') OR (i = STRLEN(recv[])) THEN
+         stop = i
+         pCount = pCount + 1
+         token[] = SUBSTR(recv[], start, stop-start)
+         SELECT pCount
+         CASE 1
+            rx = STRTOREAL(token[])
+         CASE 2
+            ry = STRTOREAL(token[])
+         CASE 3
+            rz = STRTOREAL(token[])
+         CASE 4
+            rA = STRTOREAL(token[])
+         CASE 5
+            rB = STRTOREAL(token[])
+         CASE 6
+            rC = STRTOREAL(token[])
+         ENDSELECT
+         start = i + 1
+      ENDIF
+   ENDFOR
+
+   TargetPos = $POS_ACT
+   TargetPos.X = rx
+   TargetPos.Y = ry
+   TargetPos.Z = rz
+   TargetPos.A = rA
+   TargetPos.B = rB
+   TargetPos.C = rC
+
+   ; Ajusta S/T según tu cinemática
+   TargetPos.S = 6
+   TargetPos.T = 35
+
+   PTP TargetPos
+
+   EKIClose("VISIONSRV", state)
+
+END

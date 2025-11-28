@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EthernetKRL>
+  <CONFIGURATION>
+    <EXTERNAL>
+      <TYPE>Server</TYPE>
+      <IP>10.0.0.14</IP>
+      <PORT>30010</PORT>
+      <PROTOCOL>TCP</PROTOCOL>
+    </EXTERNAL>
+    <INTERNAL>
+      <BUFFERING Mode="FIFO" Limit="5"/>
+      <ALIVE Set_Flag="47" Reset_Flag="47"/>
+    </INTERNAL>
+  </CONFIGURATION>
+
+  <SEND>
+    <XML>
+      <ELEMENT Tag="Command" Type="STRING"/>
+    </XML>
+  </SEND>
+
+  <RECEIVE>
+    <XML>
+      <ELEMENT Tag="Response" Type="STRING"/>
+    </XML>
+  </RECEIVE>
+</EthernetKRL>
+
+
+
